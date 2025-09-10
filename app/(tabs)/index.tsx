@@ -276,7 +276,7 @@ export default function TasbeehScreen() {
       </View>
 
       {/* Bottom controls */}
-      <View style={[styles.bottomControls, { paddingBottom: insets.bottom + 80 }]}>
+      <View style={[styles.bottomControls, { paddingBottom: 24 }]}>
         {/* Progress bar */}
         <View style={[styles.progressBarBg, { backgroundColor: isDark ? '#243447' : '#E2E8F0' }]}>
           <Animated.View
