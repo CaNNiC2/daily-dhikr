@@ -220,6 +220,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: '700',
+        letterSpacing: 0.5,
+        paddingHorizontal: 4,
     },
     scrollView: {
         flex: 1,
