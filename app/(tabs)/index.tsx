@@ -182,51 +182,54 @@ export default function TasbeehScreen() {
         <Text style={styles.headerSubtitle}>Daily Dhikr</Text>
       </LinearGradient>
 
-      {/* Dhikr selector */}
-      <TouchableOpacity
-        style={[styles.dhikrSelector, { backgroundColor: colors.surface, borderColor: colors.border }]}
-        onPress={() => setShowDhikrPicker(!showDhikrPicker)}
-        activeOpacity={0.7}
-      >
-        <Text style={[styles.dhikrArabic, { color: IslamicColors.emerald }]}>{selectedDhikr.arabic}</Text>
-        <Text style={[styles.dhikrTransliteration, { color: colors.text }]}>
-          {selectedDhikr.transliteration}
-        </Text>
-        <Text style={[styles.dhikrTranslation, { color: colors.textSecondary }]}>
-          {selectedDhikr.translation}
-        </Text>
-        <View style={styles.selectorArrow}>
-          <Text style={{ color: colors.textSecondary, fontSize: 12 }}>
-            {showDhikrPicker ? '▲ Close' : '▼ Change Dhikr'}
+      {/* Dhikr selection container (wrapped for zIndex) */}
+      <View style={{ zIndex: 10 }}>
+        {/* Dhikr selector */}
+        <TouchableOpacity
+          style={[styles.dhikrSelector, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={() => setShowDhikrPicker(!showDhikrPicker)}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.dhikrArabic, { color: IslamicColors.emerald }]}>{selectedDhikr.arabic}</Text>
+          <Text style={[styles.dhikrTransliteration, { color: colors.text }]}>
+            {selectedDhikr.transliteration}
           </Text>
-        </View>
-      </TouchableOpacity>
+          <Text style={[styles.dhikrTranslation, { color: colors.textSecondary }]}>
+            {selectedDhikr.translation}
+          </Text>
+          <View style={styles.selectorArrow}>
+            <Text style={{ color: colors.textSecondary, fontSize: 12 }}>
+              {showDhikrPicker ? '▲ Close' : '▼ Change Dhikr'}
+            </Text>
+          </View>
+        </TouchableOpacity>
 
-      {/* Dhikr picker dropdown */}
-      {showDhikrPicker && (
-        <View style={[styles.pickerContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-          <ScrollView style={styles.pickerScroll} showsVerticalScrollIndicator={false}>
-            {anytimeDhikr.map((dhikr) => (
-              <TouchableOpacity
-                key={dhikr.id}
-                style={[
-                  styles.pickerItem,
-                  { borderBottomColor: colors.border },
-                  dhikr.id === selectedDhikr.id && {
-                    backgroundColor: isDark ? 'rgba(13,159,110,0.15)' : 'rgba(13,159,110,0.08)',
-                  },
-                ]}
-                onPress={() => selectDhikr(dhikr)}
-              >
-                <Text style={[styles.pickerArabic, { color: colors.text }]}>{dhikr.arabic}</Text>
-                <Text style={[styles.pickerTranslit, { color: colors.textSecondary }]}>
-                  {dhikr.transliteration} · ×{dhikr.count}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-      )}
+        {/* Dhikr picker dropdown */}
+        {showDhikrPicker && (
+          <View style={[styles.pickerContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <ScrollView style={styles.pickerScroll} showsVerticalScrollIndicator={false}>
+              {anytimeDhikr.map((dhikr) => (
+                <TouchableOpacity
+                  key={dhikr.id}
+                  style={[
+                    styles.pickerItem,
+                    { borderBottomColor: colors.border },
+                    dhikr.id === selectedDhikr.id && {
+                      backgroundColor: isDark ? 'rgba(13,159,110,0.15)' : 'rgba(13,159,110,0.08)',
+                    },
+                  ]}
+                  onPress={() => selectDhikr(dhikr)}
+                >
+                  <Text style={[styles.pickerArabic, { color: colors.text }]}>{dhikr.arabic}</Text>
+                  <Text style={[styles.pickerTranslit, { color: colors.textSecondary }]}>
+                    {dhikr.transliteration} · ×{dhikr.count}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+      </View>
 
       {/* Counter Circle */}
       <View style={styles.counterSection}>
@@ -371,7 +374,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pickerContainer: {
-    marginHorizontal: 20,
+    position: 'absolute',
+    top: '100%',
+    left: 20,
+    right: 20,
     marginTop: 4,
     borderRadius: 12,
     borderWidth: 1,
