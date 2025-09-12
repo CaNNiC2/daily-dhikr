@@ -183,7 +183,7 @@ export default function TasbeehScreen() {
       </LinearGradient>
 
       {/* Dhikr selection container (wrapped for zIndex) */}
-      <View style={{ zIndex: 10 }}>
+      <View style={{ zIndex: 10, elevation: 10 }}>
         {/* Dhikr selector */}
         <TouchableOpacity
           style={[styles.dhikrSelector, { backgroundColor: colors.surface, borderColor: colors.border }]}
@@ -207,7 +207,12 @@ export default function TasbeehScreen() {
         {/* Dhikr picker dropdown */}
         {showDhikrPicker && (
           <View style={[styles.pickerContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-            <ScrollView style={styles.pickerScroll} showsVerticalScrollIndicator={false}>
+            <ScrollView
+              style={styles.pickerScroll}
+              showsVerticalScrollIndicator={true}
+              nestedScrollEnabled={true}
+              keyboardShouldPersistTaps="handled"
+            >
               {anytimeDhikr.map((dhikr) => (
                 <TouchableOpacity
                   key={dhikr.id}
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     borderRadius: 12,
     borderWidth: 1,
-    maxHeight: 200,
+    maxHeight: 250,
     overflow: 'hidden',
     elevation: 4,
     shadowColor: '#000',
