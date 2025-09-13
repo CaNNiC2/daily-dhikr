@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
+  Modal,
   Platform,
   ScrollView,
   StyleSheet,
@@ -182,12 +183,12 @@ export default function TasbeehScreen() {
         <Text style={styles.headerSubtitle}>Daily Dhikr</Text>
       </LinearGradient>
 
-      {/* Dhikr selection container (wrapped for zIndex) */}
-      <View style={{ zIndex: 10, elevation: 10 }}>
+      {/* Dhikr selection container */}
+      <View style={{ zIndex: 10 }}>
         {/* Dhikr selector */}
         <TouchableOpacity
           style={[styles.dhikrSelector, { backgroundColor: colors.surface, borderColor: colors.border }]}
-          onPress={() => setShowDhikrPicker(!showDhikrPicker)}
+          onPress={() => setShowDhikrPicker(true)}
           activeOpacity={0.7}
         >
           <Text style={[styles.dhikrArabic, { color: IslamicColors.emerald }]}>{selectedDhikr.arabic}</Text>
@@ -199,19 +200,25 @@ export default function TasbeehScreen() {
           </Text>
           <View style={styles.selectorArrow}>
             <Text style={{ color: colors.textSecondary, fontSize: 12 }}>
-              {showDhikrPicker ? '▲ Close' : '▼ Change Dhikr'}
+              ▼ Change Dhikr
             </Text>
           </View>
         </TouchableOpacity>
+      </View>
 
-        {/* Dhikr picker dropdown */}
-        {showDhikrPicker && (
-          <View style={[styles.pickerContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+      {/* Dhikr picker modal */}
+      <Modal visible={showDhikrPicker} transparent={true} animationType="fade">
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowDhikrPicker(false)}
+        >
+          <View style={[styles.modalPickerContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Select Dhikr</Text>
+            <View style={[styles.divider, { backgroundColor: colors.border }]} />
             <ScrollView
               style={styles.pickerScroll}
               showsVerticalScrollIndicator={true}
-              nestedScrollEnabled={true}
-              keyboardShouldPersistTaps="handled"
             >
               {anytimeDhikr.map((dhikr) => (
                 <TouchableOpacity
@@ -233,8 +240,8 @@ export default function TasbeehScreen() {
               ))}
             </ScrollView>
           </View>
-        )}
-      </View>
+        </TouchableOpacity>
+      </Modal>
 
       {/* Counter Circle */}
       <View style={styles.counterSection}>
@@ -378,37 +385,48 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-  pickerContainer: {
-    position: 'absolute',
-    top: '100%',
-    left: 20,
-    right: 20,
-    marginTop: 4,
-    borderRadius: 12,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  modalPickerContainer: {
+    borderRadius: 16,
     borderWidth: 1,
-    maxHeight: 250,
+    maxHeight: '75%',
     overflow: 'hidden',
-    elevation: 4,
+    elevation: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'center',
+    paddingVertical: 16,
+  },
+  divider: {
+    height: 1,
+    width: '100%',
   },
   pickerScroll: {
     flexGrow: 0,
   },
   pickerItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
     borderBottomWidth: 1,
   },
   pickerArabic: {
-    fontSize: 20,
+    fontSize: 24,
     textAlign: 'center',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   pickerTranslit: {
-    fontSize: 13,
+    fontSize: 14,
     textAlign: 'center',
   },
   counterSection: {
